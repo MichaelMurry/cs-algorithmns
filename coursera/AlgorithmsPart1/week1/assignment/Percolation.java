@@ -9,6 +9,7 @@ public class Percolation {
 	private int n;
 	private int vtop;
 	private int vbot;
+	private int ocount;
 
 	// create n-by-n grid, with all sites blocked
     public Percolation(int N) {               
@@ -19,7 +20,8 @@ public class Percolation {
     	ufPerc = new WeightedQuickUnionUF(n*n + 2);
     	site = new int[n][n];
     	vtop = n*n;
-    	vbot = n*n + 1
+    	vbot = n*n + 1;
+    	ocount = 0;
     }
 
 	public void checkInputBounds(int row, int col) {
@@ -43,18 +45,19 @@ public class Percolation {
    		// check if already open
    		if (isOpen(row, col)) return;
 		site[row-1][col-1] = 1;
+		ocount += 1;
 
    		// convert 2d array index to 1d array index
    		int indx = convert2dTo1dIndex(row, col);
 
    		// if top row, connect site to virtual top site in ufPerc
-   		if (row == 1 && !uf.connected(indx, top)) {
+   		if (row == 1 && !uf.connected(indx, vtop)) {
    			ufPerc.union(indx, vtop);
    		}
 
    		// if bot row, connect site to virtual bot site in ufPerc
    		if (row == n) {
-   			ufPerc.union(indx, vbottom);
+   			ufPerc.union(indx, vbot);
    		}
 
 		// check if we're on the right edge of grid
@@ -130,12 +133,12 @@ public class Percolation {
 
 	// number of open sites
    	public int numberOfOpenSites() {
-
+   		return ocount;
    	}    
    	
    	// does the system percolate?
    	public boolean percolates() {
-   		if (ufPerc.connected(vtop, vbottom)){
+   		if (ufPerc.connected(vtop, vbot)){
    			return true;
    		}
    		return false;
@@ -152,7 +155,5 @@ public class Percolation {
     	tst.percolates();
 
     	tst.printGrid();
-
-
     } 
 }
