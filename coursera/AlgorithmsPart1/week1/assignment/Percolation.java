@@ -1,5 +1,4 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-import java.util.Arrays;
 
 public class Percolation {
    
@@ -104,13 +103,6 @@ public class Percolation {
 		return site[row-1][col-1] == 1;
    	}
 
-   	// print out Grid
-	public void printGrid() {
-		for (int[] row : site) {
-			System.out.println(Arrays.toString(row));
-		}
-	}
-
 	// is site (row, col) full?
    	public boolean isFull(int row, int col) {
     	checkInputBounds(row, col);
@@ -154,6 +146,5 @@ public class Percolation {
     	tst.open(3,2);
     	tst.percolates();
 
-    	tst.printGrid();
     } 
 }
