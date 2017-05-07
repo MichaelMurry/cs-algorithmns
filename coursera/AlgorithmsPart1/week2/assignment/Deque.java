@@ -1,6 +1,7 @@
 import java.util.Iterator;
 
-public class Deque<Item> implements Iterable<Item> {
+public class Deque<Item> implements Iterable<Item> 
+{
 	private Node first;
 	private Node last;
 	private int count;
