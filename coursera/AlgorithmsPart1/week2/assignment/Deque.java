@@ -103,6 +103,10 @@ public class Deque<Item> implements Iterable<Item> {
 			return (current != null); 
 		}
 
+		public void remove() {
+			throw new java.lang.UnsupportedOperationException("Removing item not supported");
+		}
+
 		public Item next() {
 			checkEmpty();
 			Item item = current.item;
@@ -122,30 +126,13 @@ public class Deque<Item> implements Iterable<Item> {
 
 		for (Integer i : tst)
 			StdOut.println(i);
-		// tst.removeFirst();
+
 		tst.removeFirst();
 		tst.removeFirst();
 
 		for (Integer i : tst)
 			StdOut.println(i);
-		// tst.removeFirst();
-		// tst.removeFirst();
-		// tst.size();
 
-
-		// tst.removeFirst();
-
-
-
-		// tst.addLast("me");
-		// tst.addLast("There");
-		// tst.removeLast();
-		// tst.removeFirst();
-
-		// tst.addLast("Hi");
-		// tst.addLast("poop");
-		// tst.removeFirst();
-		// tst.removeFirst();
 
 
 	}
