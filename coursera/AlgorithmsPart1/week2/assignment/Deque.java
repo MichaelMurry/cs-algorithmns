@@ -1,5 +1,4 @@
 import java.util.Iterator;
-import StdOut;
 
 public class Deque<Item> implements Iterable<Item> {
 	private Node first;
@@ -105,6 +104,7 @@ public class Deque<Item> implements Iterable<Item> {
 		}
 
 		public Item next() {
+			checkEmpty();
 			Item item = current.item;
 			current = current.next;
 			return item;
@@ -123,8 +123,11 @@ public class Deque<Item> implements Iterable<Item> {
 		for (Integer i : tst)
 			StdOut.println(i);
 		// tst.removeFirst();
-		// tst.removeFirst();
-		// tst.removeFirst();
+		tst.removeFirst();
+		tst.removeFirst();
+
+		for (Integer i : tst)
+			StdOut.println(i);
 		// tst.removeFirst();
 		// tst.removeFirst();
 		// tst.size();
