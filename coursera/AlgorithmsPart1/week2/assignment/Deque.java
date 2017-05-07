@@ -12,13 +12,37 @@ public class Deque<Item> implements Iterable<Item> {
 		count = 0;
 	}
 	
+	// linked list node implementation
 	private class Node {
 		Item item;
 		Node next;
 		Node previous; 
 	}
 
-	// is the deque empty
+	// iterator class implementation
+	private class ListIterator implements Iterator<Item> {
+		private Node current = first;
+
+		public boolean hasNext() { 
+			return (current != null); 
+		}
+
+		public void remove() {
+			throw new java.lang.UnsupportedOperationException("Removing item not supported");
+		}
+
+		public Item next() {
+		// check if deque is empty
+		if (size() < 1) {
+			throw new java.util.NoSuchElementException("Deque is empty, can't perform operation");	
+		}
+			Item item = current.item;
+			current = current.next;
+			return item;
+		}
+	}
+
+	// check if the deque empty
 	public boolean isEmpty() {
 		return(first == null && last == null);
 	}
@@ -66,7 +90,11 @@ public class Deque<Item> implements Iterable<Item> {
 
 	// remove and return the item from the front
 	public Item removeFirst() {
-		checkEmpty();
+		// check if deque is empty
+		if (size() < 1) {
+			throw new java.util.NoSuchElementException("Deque is empty, can't perform operation");	
+		}
+
 		Item item = first.item;
 		first = first.next;
 		System.out.println(item);
@@ -76,7 +104,11 @@ public class Deque<Item> implements Iterable<Item> {
 
 	// remove and return the item from the end
 	public Item removeLast() {
-		checkEmpty();
+		// check if deque is empty
+		if (size() < 1) {
+			throw new java.util.NoSuchElementException("Deque is empty, can't perform operation");	
+		}
+
 		Item item = last.item;
 		last = last.previous;
 		System.out.println(item);
@@ -84,59 +116,20 @@ public class Deque<Item> implements Iterable<Item> {
 		return item;
 	}
 
-	// check if deque is empty
-	public void checkEmpty() {
-		if (size() < 1) {
-			throw new java.util.NoSuchElementException("Deque is empty, can't perform operation");
-		}
-	}
-
 	// return an iterator over items in order from front to end
 	public Iterator<Item> iterator() {
 		return new ListIterator();
 	}
 
-	private class ListIterator implements Iterator<Item> {
-		private Node current = first;
+	// public static void main(String[] args) {
+	// 	Deque<String> deck = new Deque<String>();
 
-		public boolean hasNext() { 
-			return (current != null); 
-		}
-
-		public void remove() {
-			throw new java.lang.UnsupportedOperationException("Removing item not supported");
-		}
-
-		public Item next() {
-			checkEmpty();
-			Item item = current.item;
-			current = current.next;
-			return item;
-		}
-	}
-
-	// unit testing 
-	public static void main(String[] args) {
-		Deque<Integer> tst = new Deque<Integer>();
-		
-		tst.addLast(1);
-		tst.addFirst(2);
-		tst.addLast(3);
-		tst.addFirst(4);
-
-		for (Integer i : tst)
-			StdOut.println(i);
-
-		tst.removeFirst();
-		tst.removeFirst();
-
-		for (Integer i : tst)
-			StdOut.println(i);
-
-
-
-	}
-
-
+	// 	deck.addFirst("Hello");
+	// 	deck.addLast("Ja");
+	// 	deck.addLast("Rule");
+	// 	deck.removeFirst();
+	// 	deck.removeFirst();
+	// 	deck.removeFirst();
+	// }
 
 }
