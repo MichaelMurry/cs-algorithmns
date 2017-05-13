@@ -1,13 +1,13 @@
 import java.util.Iterator;
 
 public class RandomizedQueue<Item> implements Iterable<Item>{
-	private Item[] q;
+	private Item[] items;
 	private int N;
 
 	// construct an empty randomized queue
 	public RandomizedQueue() {
 		N = 0; 
-		q = (Item[]) new Object[1];
+		items = (Item[]) new Object[1];
 	}
 
 	// is the queue empty
@@ -24,37 +24,32 @@ public class RandomizedQueue<Item> implements Iterable<Item>{
 	public void enqueue(Item item) {
 		if (item == null) throw new java.lang.NullPointerException();
 
-		if (N == q.length) {
-			Item[] copy = (Item[]) new Object[2*q.length];
-			for (int i = 0; i < N; i++)
-				copy[i] = q[i];
-			q = copy;
+		if (N == items.length) {
+			resize(items.length *2);
 		}
+		items[N++] = item;
+	}
 
-		q[N] = item;
-		N++;
+	private void resize(int capacity) {
+		Item[] copy = (Item[]) new Object[capacity];
+		for (int i = 0; i < N; i++) {
+			copy[i] = items[i];
+		}
+		items = copy;
 	}
 
 	// remove and return a random item
 	public Item dequeue() {
-		if (N==0) throw new java.util.NoSuchElementException();
+		if (N == 0) throw new java.util.NoSuchElementException();
+		
+		if (N == items.length/4) {
+			resize(items.length/2);
+		}
 
 		int rand = StdRandom.uniform(N);
-		Item item = q[rand];
-		if (rand != N - 1)
-			q[rand] = q[N-1];
-
-		// don't forget to put the newArray[newLength] to be null to avoid Loitering
-		q[rand] = null;
-		N--;
-		if (N > 0 && N == q.length/4) {
-			Item[] copy = (Item[]) new Object[q.length/2];
-			int j = 0;
-			for (int i = 0; i < N; i++)
-				if (q[i] != null) copy[j] = q[i];
-			q = copy;
-		} 
-
+		Item item = items[rand];
+		items[rand] = items[--N];
+		items[N] = null;
 		return item;
 	}
 
@@ -63,49 +58,43 @@ public class RandomizedQueue<Item> implements Iterable<Item>{
 		if (isEmpty()) throw new java.util.NoSuchElementException();
 
 		int rand = StdRandom.uniform(N);
-		Item item = q[rand];
+		Item item = items[rand];
 		return item;
 	}
 
 	// return an independent iterator over items in random order
-	public Iterator<Item> iterator() { return new RandomizedIterator(); }
+	public Iterator<Item> iterator() { 
+		return new RandomizedIterator(); 
+	}
 
 	private class RandomizedIterator implements Iterator<Item> { 
-        // Must copy the item in q[] into a new Array
-        // Because when we create two independent iterators to same randomized queue, the original one
-        // has been changed and the second one will lead to false result.
-        private int index = 0;
-        private int newN = N;
-        private Item newArray[] = (Item[]) new Object[N];
- 
-        private RandomizedIterator() {
-            for (int i = 0; i < newN; i++) {
-                newArray[i] = q[i];
-            }
-        }
- 
-        public boolean hasNext() {
-            return index <= newN - 1;
-        }
- 
-        public Item next() {
-            if (newArray[index] == null) throw new java.util.NoSuchElementException();
+        private int[] random;
+        private int current;
 
-            int rand = StdRandom.uniform(newN);
-            Item item = newArray[rand];
-            if (rand != newN - 1)
-                newArray[rand] = newArray[newN - 1];
-            newN--;
-            newArray[newN] = null;
-            return item;
+        public RandomizedIterator() {
+        	random = new int[N];
+        	for (int i = 0; i < N; i++) {
+        		random[i] = i;
+        	}
+        	StdRandom.shuffle(random);
+        	current = 0;
         }
- 
+
+        public boolean hasNext() {
+        	return current != random.length;
+        }
+
+        public Item next() {
+        	if (!hasNext()) throw new java.util.NoSuchElementException();
+        	return items[random[current++]];
+        }
+
         public void remove() {
-            throw new UnsupportedOperationException();
+        	throw new java.lang.UnsupportedOperationException();
         }
 	}
 
-	// unit testing (optional)
+	// unit testing
 	public static void main(String[] args) {
 		RandomizedQueue<String> randomQueue = new RandomizedQueue<String>();
 
