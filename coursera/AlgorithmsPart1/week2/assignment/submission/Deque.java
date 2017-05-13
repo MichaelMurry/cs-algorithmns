@@ -1,6 +1,7 @@
 import java.util.Iterator;
 
-public class Deque<Item> implements Iterable<Item> {
+public class Deque<Item> implements Iterable<Item> 
+{
 	private Node first;
 	private Node last;
 	private int count;
@@ -17,6 +18,29 @@ public class Deque<Item> implements Iterable<Item> {
 		Item item;
 		Node next;
 		Node prev; 
+	}
+
+	// iterator class implementation
+	private class ListIterator implements Iterator<Item> {
+		private Node current = first;
+
+		public boolean hasNext() { 
+			return (current != null); 
+		}
+
+		public void remove() {
+			throw new java.lang.UnsupportedOperationException();
+		}
+
+		public Item next() {
+		// check if deque is empty
+		if (size() < 1) {
+			throw new java.util.NoSuchElementException();	
+		}
+			Item item = current.item;
+			current = current.next;
+			return item;
+		}
 	}
 
 	// check if the deque empty
@@ -94,27 +118,5 @@ public class Deque<Item> implements Iterable<Item> {
 		return new ListIterator();
 	}
 
-	// iterator class implementation
-	private class ListIterator implements Iterator<Item> {
-		private Node current = first;
-
-		public boolean hasNext() { 
-			return (current != null); 
-		}
-
-		public void remove() {
-			throw new java.lang.UnsupportedOperationException();
-		}
-
-		public Item next() {
-		// check if deque is empty
-		if (size() < 1) {
-			throw new java.util.NoSuchElementException();	
-		}
-			Item item = current.item;
-			current = current.next;
-			return item;
-		}
-	}
 
 }
