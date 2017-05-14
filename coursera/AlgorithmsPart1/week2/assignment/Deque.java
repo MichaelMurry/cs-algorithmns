@@ -3,89 +3,100 @@ import java.util.Iterator;
 public class Deque<Item> implements Iterable<Item> {
 	private Node first;
 	private Node last;
-	private int count;
+	private Node nul;
+	private int size;
 	
 	// construct an empty deque
 	public Deque() {
-		first = null;
-		last = null;
-		count = 0;
+		nul = new Node(null, null, null);
+		first = nul;
+		last = nul;
+		size = 0;
 	}
 	
 	// linked list node implementation
 	private class Node {
-		Item item;
-		Node next;
-		Node prev; 
+		private Item item;
+		private Node next;
+		private Node prev; 
+
+		Node(Node prev, Node next, Item item) {
+			this.prev = prev;
+			this.next = next;
+			this.item = item;
+		}
 	}
 
 	// check if the deque empty
 	public boolean isEmpty() {
-		return(first == null && last == null);
+		return(first.item == null && last.item == null);
 	}
 
 	// return the number of items on the deque
-	public int size(){
-		return count;
+	public int size() {
+		return size;
 	}
 
 	// add the item to the front
 	public void addFirst(Item item) {
-		if (item == null) throw new java.lang.NullPointerException();
+		if (item == null) throw new java.lang.NullPointerException("Can't add null to the deque!");
+
+		Node newFirst = new Node(nul, first, item);
 		if (isEmpty()) {
-			first = new Node();
-			first.item = item;
-			last = first;
-			count += 1;
-		
+			last = newFirst;
+			first = newFirst;
 		}else {
-			Node oldfirst = first;
-			first = new Node();
-			oldfirst.prev = first; 
-			first.item = item;
-			first.next = oldfirst;
-			count += 1;
+			first.prev = newFirst;
+			first = newFirst;
 		}
+		size++;
 	}
 
 	// add the item to the end
 	public void addLast(Item item) {
-		if (item == null) throw new java.lang.NullPointerException();
-		if (isEmpty()) {
-			last = new Node();
-			last.item = item;
-			first = last;
-			count += 1;
+		if (item == null) throw new java.lang.NullPointerException("Can't add null to the deque!");
 
+		Node newLast = new Node(last, nul, item);
+		if (isEmpty()) {
+			first = newLast;
+			last = newLast;
 		}else {
-			Node oldlast = last;
-			last = new Node();
-			last.item = item;
-			oldlast.next = last;
-			last.prev = oldlast;
-			count += 1;
+			last.next = newLast;
+			last = newLast;
 		}
+		size++;
 	}
 
 	// remove and return the item from the front
 	public Item removeFirst() {
 		// check if deque is empty
-		if (size() < 1) throw new java.util.NoSuchElementException();	
+		if (size() < 1) throw new java.util.NoSuchElementException("The deque is empty!");	
 
 		Item item = first.item;
 		first = first.next;
-		count -= 1;
+
+		if (first.item == null) {
+			last = nul;
+		}else {
+			first.prev = nul;
+		}
+		size--;
 		return item;
 	}
 
 	// remove and return the item from the end
 	public Item removeLast() {
 		// check if deque is empty
-		if (size() < 1) throw new java.util.NoSuchElementException();	
+		if (isEmpty()) throw new java.util.NoSuchElementException("The deque is empty!");	
 
 		Item item = last.item;
 		last = last.prev;
-		count -= 1;
+		if (last.item == null) {
+			first = nul;
+		}else {
+			last.next = nul;
+		}
+		size--;
 		return item;
 	}
 
@@ -99,22 +110,40 @@ public class Deque<Item> implements Iterable<Item> {
 		private Node current = first;
 
 		public boolean hasNext() { 
-			return (current != null); 
+			return (current.next != null); 
+		}
+
+		public Item next() {
+		// check if deque is empty
+		if (!hasNext()) throw new java.util.NoSuchElementException("There is no more items!");	
+			Item item = current.item;
+			current = current.next;
+			return item;
 		}
 
 		public void remove() {
 			throw new java.lang.UnsupportedOperationException();
 		}
-
-		public Item next() {
-		// check if deque is empty
-		if (size() < 1) {
-			throw new java.util.NoSuchElementException();	
-		}
-			Item item = current.item;
-			current = current.next;
-			return item;
-		}
 	}
 
+	// unit testing
+	public static void main(String[] args) {
+        Deque<String> deck = new Deque<String>();
+
+        deck.addFirst("study");
+        deck.addLast("I");
+        deck.addLast("and");
+        deck.addLast("You");
+
+
+        deck.removeFirst();
+        deck.removeLast();
+
+        // deck.removeFirst();
+
+        StdOut.println("output:");
+        for (String x : deck) {
+            System.out.println(x);
+        }
+    }
 }
