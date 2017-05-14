@@ -1,7 +1,6 @@
 import java.util.Iterator;
 import edu.princeton.cs.algs4.StdRandom;
 
-
 public class RandomizedQueue<Item> implements Iterable<Item>{
 	private Item[] items;
 	private int N;
