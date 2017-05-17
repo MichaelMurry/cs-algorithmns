@@ -1,8 +1,7 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-   
-	private WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF uf;
 	private WeightedQuickUnionUF ufPerc;
 	private int[][] site;
 	private int n;
@@ -23,7 +22,7 @@ public class Percolation {
     	ocount = 0;
     }
 
-	public void checkInputBounds(int row, int col) {
+	private void checkInputBounds(int row, int col) {
 		// check if row and col are outside prescribed range 
 		if ((row < 1 || col < 1 || row > n || col > n)) {
 			throw new java.lang.IndexOutOfBoundsException();	
@@ -31,7 +30,7 @@ public class Percolation {
 	}
 
     // convert 2d array index to 1d array index
-    public int convert2dTo1dIndex(int row, int col) {
+    private int convert2dTo1dIndex(int row, int col) {
     	checkInputBounds(row, col);
 
     	return (row-1) * n + (col-1);

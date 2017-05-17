@@ -1,17 +1,18 @@
 import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
+
 	private Node first;
 	private Node last;
 	private Node nul;
-	private int size;
+	private int numberOfItems;
 	
 	// construct an empty deque
 	public Deque() {
 		nul = new Node(null, null, null);
 		first = nul;
 		last = nul;
-		size = 0;
+		numberOfItems = 0;
 	}
 	
 	// linked list node implementation
@@ -34,7 +35,7 @@ public class Deque<Item> implements Iterable<Item> {
 
 	// return the number of items on the deque
 	public int size() {
-		return size;
+		return numberOfItems;
 	}
 
 	// add the item to the front
@@ -49,7 +50,7 @@ public class Deque<Item> implements Iterable<Item> {
 			first.prev = newFirst;
 			first = newFirst;
 		}
-		size++;
+		numberOfItems++;
 	}
 
 	// add the item to the end
@@ -64,13 +65,13 @@ public class Deque<Item> implements Iterable<Item> {
 			last.next = newLast;
 			last = newLast;
 		}
-		size++;
+		numberOfItems++;
 	}
 
 	// remove and return the item from the front
 	public Item removeFirst() {
 		// check if deque is empty
-		if (size() < 1) throw new java.util.NoSuchElementException("The deque is empty!");	
+		if (isEmpty()) throw new java.util.NoSuchElementException("The deque is empty!");	
 
 		Item item = first.item;
 		first = first.next;
@@ -80,7 +81,7 @@ public class Deque<Item> implements Iterable<Item> {
 		}else {
 			first.prev = nul;
 		}
-		size--;
+		numberOfItems--;
 		return item;
 	}
 
@@ -96,7 +97,7 @@ public class Deque<Item> implements Iterable<Item> {
 		}else {
 			last.next = nul;
 		}
-		size--;
+		numberOfItems--;
 		return item;
 	}
 
@@ -134,14 +135,9 @@ public class Deque<Item> implements Iterable<Item> {
         deck.addLast("I");
         deck.addLast("and");
         deck.addLast("You");
-
-
         deck.removeFirst();
         deck.removeLast();
 
-        // deck.removeFirst();
-
-        StdOut.println("output:");
         for (String x : deck) {
             System.out.println(x);
         }
