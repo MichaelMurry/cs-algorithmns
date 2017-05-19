@@ -1,17 +1,18 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private WeightedQuickUnionUF uf;
+  private WeightedQuickUnionUF uf;
 	private WeightedQuickUnionUF ufPerc;
 	private int[][] site;
 	private int n;
 	private int vtop;
 	private int vbot;
-	private int ocount;
+	private int num;
 
 	// create n-by-n grid, with all sites blocked
     public Percolation(int N) {               
     	// check input bound
+      if (N <= 0) throw new IllegalArgumentException("Invalid input: n must > 0!");
 
     	n = N;
     	uf = new WeightedQuickUnionUF(n*n + 2);
@@ -19,14 +20,18 @@ public class Percolation {
     	site = new int[n][n];
     	vtop = n*n;
     	vbot = n*n + 1;
-    	ocount = 0;
+    	num = 0;
     }
 
 	private void checkInputBounds(int row, int col) {
 		// check if row and col are outside prescribed range 
-		if ((row < 1 || col < 1 || row > n || col > n)) {
-			throw new java.lang.IndexOutOfBoundsException();	
-		}
+    if (row <= 0 || row >= n) {
+      throw new IndexOutOfBoundsException("Invalid input: row index out of bounds!");
+    }
+
+    if (col <= 0 || col >= n) {
+      throw new IndexOutOfBoundsException("Invalid input: col index out of bounds!");
+    }
 	}
 
     // convert 2d array index to 1d array index
@@ -42,8 +47,8 @@ public class Percolation {
 
    		// check if already open
    		if (isOpen(row, col)) return;
-		site[row-1][col-1] = 1;
-		ocount += 1;
+		  site[row-1][col-1] = 1;
+		  num++;
 
    		// convert 2d array index to 1d array index
    		int indx = convert2dTo1dIndex(row, col);
@@ -124,7 +129,7 @@ public class Percolation {
 
 	// number of open sites
    	public int numberOfOpenSites() {
-   		return ocount;
+   		return num;
    	}    
    	
    	// does the system percolate?
