@@ -71,6 +71,4 @@ public class BruteCollinearPoints {
   		System.out.println(pts.segments());
   		System.out.println(pts.numberOfSegments());
     }
-
-
-    }
+}   
