@@ -6,13 +6,11 @@ public class Point implements Comparable<Point> {
     private final int x;     // x-coordinate of this point
     private final int y;     // y-coordinate of this point
 
-    
      // Initializes a new point.
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
-
 
      // Draws this point to standard draw.
     public void draw() {
@@ -34,7 +32,12 @@ public class Point implements Comparable<Point> {
      * and Double.NEGATIVE_INFINITY if (x0, y0) and (x1, y1) are equal.
      */
     public double slopeTo(Point that) {
-        /* YOUR CODE HERE */
+        if (this.x == that.x) {
+            if (this.y == that.y) return Double.NEGATIVE_INFINITY;
+            else return Double.POSITIVE_INFINITY;
+        }
+        if (this.y == that.y) return 0;
+        return (double) (this.y - that.y) / (this.x - that.x);
     }
 
     /**
@@ -43,7 +46,11 @@ public class Point implements Comparable<Point> {
      * (x1, y1) if and only if either y0 < y1 or if y0 = y1 and x0 < x1.
      */
     public int compareTo(Point that) {
-        /* YOUR CODE HERE */
+        if (this.y < that.y) return -1;
+        if (this.y > that.y) return +1;
+        if (this.y == that.y && this.x < that.x) return -1;
+        if (this.y == that.y && this.x > that.x) return +1;
+        return 0;
     }
 
     /**
@@ -51,9 +58,19 @@ public class Point implements Comparable<Point> {
      * The slope is defined as in the slopeTo() method.
      */
     public Comparator<Point> slopeOrder() {
-        /* YOUR CODE HERE */
+        return new SlopeOrder();
     }
 
+    private class SlopeOrder implements Comparator<Point> {
+        @Override
+        public int compare(Point o1, Point o2) {
+            double m1 = slopeTo(o1);
+            double m2 = slopeTo(o2);
+            if (m1 < m2) return -1;
+            if (m1 == m2) return 0;
+            return 1; 
+        }
+    }
 
     /**
      * Returns a string representation of this point.
@@ -61,7 +78,6 @@ public class Point implements Comparable<Point> {
      * your program should not rely on the format of the string representation.
      */
     public String toString() {
-        /* DO NOT MODIFY */
         return "(" + x + ", " + y + ")";
     }
 
@@ -69,6 +85,10 @@ public class Point implements Comparable<Point> {
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-        /* YOUR CODE HERE */
+        Point pt1 = new Point(1,2);
+        Point pt2 = new Point(1,2);
+
+        // pt.printOut();
+        System.out.println(pt1.compareTo(pt2));
     }
 }
