@@ -1,5 +1,7 @@
 public class FastCollinearPoints {
 
+    private LineSegment[] segments;
+
 	// finds all line segments containing 4 or more points
     public FastCollinearPoints(Point[] points) {
 
@@ -14,6 +16,11 @@ public class FastCollinearPoints {
             }
         }
 
+        // create an array for points and slopes?
+
+
+        ArrayList<LineSegment> foundSegments = new ArrayList<>();
+
         for (int q = 0; q<points.length; q++) {
 			for (int p = 1; p<points.length; p++){
 				//calculate slope of p to all q
@@ -23,7 +30,12 @@ public class FastCollinearPoints {
 			}
 		//save segments
 		}
+    }
 
+    private static class BySlope implements Comparator<Point> {
+    	public double compare(Point o1, Point o2) {
+    		return o1.slopeOrder(o2);
+    	}
     }    
 
     // the number of line segments
