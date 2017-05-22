@@ -13,7 +13,7 @@ public class BruteCollinearPoints {
 
    		// check that points are unique and isn't null
         for (int i = 0; i<points.length-1; i++) {
-            if (points[i] == null) throw new java.lang.NullPointerException("Input array can't be null!");
+            if (points[i] == null) throw new java.lang.NullPointerException("Input array can't contain null points!");
             for (int j = i + 1; j<points.length; j++) {
                 if (points[i].compareTo(points[j]) == 0) throw new java.lang.IllegalArgumentException("Input array can't have repeated points!");
             }
