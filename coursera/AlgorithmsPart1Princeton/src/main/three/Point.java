@@ -85,8 +85,8 @@ public class Point implements Comparable<Point> {
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-        Point pt1 = new Point(1,2);
-        Point pt2 = new Point(1,2);
+        Point pt1 = new Point(1, 2);
+        Point pt2 = new Point(1, 2);
 
         // pt.printOut();
         System.out.println(pt1.compareTo(pt2));

@@ -84,16 +84,16 @@ public class FastCollinearPoints {
     public static void main(String[] args) {
 
         Point[] points = new Point[9];
-        points[3] = new Point(0,0);
-        points[2] = new Point(1,1);
-        points[1] = new Point(2,2);
-        points[0] = new Point(3,3);
-        points[4] = new Point(4,4);
+        points[3] = new Point(0, 0);
+        points[2] = new Point(1, 1);
+        points[1] = new Point(2, 2);
+        points[0] = new Point(3, 3);
+        points[4] = new Point(4, 4);
 
-        points[5] = new Point(2,3);
-        points[6] = new Point(3,4);
-        points[7] = new Point(4,5);
-        points[8] = new Point(5,4);
+        points[5] = new Point(2, 3);
+        points[6] = new Point(3, 4);
+        points[7] = new Point(4, 5);
+        points[8] = new Point(5, 4);
 
         FastCollinearPoints pts = new FastCollinearPoints(points);
   		System.out.println(pts.segments());
