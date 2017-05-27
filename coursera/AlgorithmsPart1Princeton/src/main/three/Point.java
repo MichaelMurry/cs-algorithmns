@@ -6,19 +6,19 @@ public class Point implements Comparable<Point> {
     private final int x;     // x-coordinate of this point
     private final int y;     // y-coordinate of this point
 
-     // Initializes a new point.
+    // Initializes a new point.
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-     // Draws this point to standard draw.
+    // Draws this point to standard draw.
     public void draw() {
         StdDraw.point(x, y);
     }
 
-     // Draws the line segment between this point and the specified point
-     // to standard draw.
+    // Draws the line segment between this point and the specified point
+    // to standard draw.
     public void drawTo(Point that) {
         StdDraw.line(this.x, this.y, that.x, that.y);
     }
