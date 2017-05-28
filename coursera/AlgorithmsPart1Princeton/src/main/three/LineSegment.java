@@ -1,3 +1,5 @@
+package three;
+
 /*************************************************************************
  *  Compilation:  javac LineSegment.java
  *  Execution:    none
